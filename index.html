@@ -43,49 +43,41 @@
 
 <!-- Banner Section -->
 <section class="container mx-auto px-4 pt-24 pb-12">
-    <div class="carousel w-full rounded-lg shadow-lg overflow-hidden" data-theme="light">
-        <div class="carousel-inner relative w-full transition-transform duration-500 ease-in-out">
+    <div class="carousel w-full rounded-lg shadow-lg overflow-hidden relative">
+        <div class="carousel-inner relative w-full">
             <!-- Slide 1 -->
-            <div id="slide1" class="carousel-item relative w-full active">
-                <img src="img1.png" class="w-full h-[50vh] object-cover transform transition-opacity duration-500 ease-in-out">
+            <div id="slide1" class="carousel-item active">
+                <img src="img1.png" class="w-full h-[50vh] object-cover">
                 <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide4" class="btn btn-circle opacity-80 hover:opacity-100 transition-opacity" 
-                       onclick="event.preventDefault()">❮</a>
-                    <a href="#slide2" class="btn btn-circle opacity-80 hover:opacity-100 transition-opacity" 
-                       onclick="event.preventDefault()">❯</a>
+                    <button class="btn-slide prev" data-target="#slide4">❮</button>
+                    <button class="btn-slide next" data-target="#slide2">❯</button>
                 </div>
             </div>
-            
+
             <!-- Slide 2 -->
-            <div id="slide2" class="carousel-item relative w-full">
-                <img src="ing2.png" class="w-full h-[50vh] object-cover transform transition-opacity duration-500 ease-in-out">
+            <div id="slide2" class="carousel-item">
+                <img src="img2.png" class="w-full h-[50vh] object-cover">
                 <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide1" class="btn btn-circle opacity-80 hover:opacity-100 transition-opacity" 
-                       onclick="event.preventDefault()">❮</a>
-                    <a href="#slide3" class="btn btn-circle opacity-80 hover:opacity-100 transition-opacity" 
-                       onclick="event.preventDefault()">❯</a>
+                    <button class="btn-slide prev" data-target="#slide1">❮</button>
+                    <button class="btn-slide next" data-target="#slide3">❯</button>
                 </div>
             </div>
-            
+
             <!-- Slide 3 -->
-            <div id="slide3" class="carousel-item relative w-full">
-                <img src="img3.png" class="w-full h-[50vh] object-cover transform transition-opacity duration-500 ease-in-out">
+            <div id="slide3" class="carousel-item">
+                <img src="img3.png" class="w-full h-[50vh] object-cover">
                 <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide2" class="btn btn-circle opacity-80 hover:opacity-100 transition-opacity" 
-                       onclick="event.preventDefault()">❮</a>
-                    <a href="#slide4" class="btn btn-circle opacity-80 hover:opacity-100 transition-opacity" 
-                       onclick="event.preventDefault()">❯</a>
+                    <button class="btn-slide prev" data-target="#slide2">❮</button>
+                    <button class="btn-slide next" data-target="#slide4">❯</button>
                 </div>
             </div>
-            
+
             <!-- Slide 4 -->
-            <div id="slide4" class="carousel-item relative w-full">
-                <img src="img4.png" class="w-full h-[50vh] object-cover transform transition-opacity duration-500 ease-in-out">
+            <div id="slide4" class="carousel-item">
+                <img src="img4.png" class="w-full h-[50vh] object-cover">
                 <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide3" class="btn btn-circle opacity-80 hover:opacity-100 transition-opacity" 
-                       onclick="event.preventDefault()">❮</a>
-                    <a href="#slide1" class="btn btn-circle opacity-80 hover:opacity-100 transition-opacity" 
-                       onclick="event.preventDefault()">❯</a>
+                    <button class="btn-slide prev" data-target="#slide3">❮</button>
+                    <button class="btn-slide next" data-target="#slide1">❯</button>
                 </div>
             </div>
         </div>
@@ -93,481 +85,373 @@
 </section>
 
 <style>
+/* General carousel item styling */
 .carousel-item {
     display: none;
-    transition: opacity 0.5s ease-in-out;
-}
-.carousel-item.active {
-    display: block;
-    animation: slide 0.5s ease-in-out;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-@keyframes slide {
-    from { opacity: 0.8; transform: translateX(5%); }
-    to { opacity: 1; transform: translateX(0); }
+.carousel-item.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Smooth hover effect for navigation buttons */
+.btn-slide {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 12px;
+    border-radius: 50%;
+    transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
+}
+
+.btn-slide:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.15);
 }
 </style>
 
 <script>
-document.querySelectorAll('.carousel a').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = this.getAttribute('href');
-        const currentSlide = this.closest('.carousel-item');
-        const targetSlide = document.querySelector(target);
-        
-        currentSlide.classList.remove('active');
-        targetSlide.classList.add('active');
-        
-        // Update URL hash without scrolling
-        history.replaceState(null, null, target);
+document.querySelectorAll('.btn-slide').forEach(button => {
+    button.addEventListener('click', function() {
+        const currentSlide = document.querySelector('.carousel-item.active');
+        const targetSlide = document.querySelector(this.dataset.target);
+
+        if (currentSlide !== targetSlide) {
+            currentSlide.classList.remove('active');
+            targetSlide.classList.add('active');
+        }
     });
 });
 </script>
+
 <div>
-    <h2 class="text-center text-3xl font-bold text-accent mb-6">Welcome to the Faculty & Student Gallery</h2>
-    <p class="text-center text-lg text-gray-300 mb-6">Discover the dedicated professionals and students shaping the future.</p>
+    <h2 class="text-center text-3xl font-bold text-accent mb-6 px-6 py-3">Welcome to the Faculty & Student Gallery</h2>
+    <p class="text-center text-lg text-gray-300 mb-6 container mx-auto px-5 py-15">Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse totam eligendi, maiores earum veniam rem ut expedita, error delectus reiciendis ex sit quam facere, laudantium reprehenderit. Corrupti libero quidem et illum a similique ducimus fugit atque quasi recusandae quaerat laborum vitae illo, repellat saepe alias magni vel corporis accusantium! Voluptates ipsa ad asperiores nobis, illo dolor similique voluptatum quasi minus at placeat vitae pariatur delectus maxime excepturi et, atque laboriosam exercitationem quidem sunt autem eius, facere voluptate! Magnam labore corrupti tempora soluta autem. Impedit ad, reiciendis odit distinctio omnis repellat quos qui incidunt explicabo harum at magnam perspiciatis culpa eveniet.</p>
 </div>
+
 <!-- Main Content -->
 <main class="container mx-auto px-4 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img1.png" alt="group photo 1" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img2.png" alt="group photo 2" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img3.png" alt="group photo 3" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
     </div>
 </main>
-<!-- Main Content -->
+
+<style>
+/* Hover effect on images */
+.card-img:hover {
+    transform: scale(1.08);
+}
+</style>
 <main class="container mx-auto px-4 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img1.png" alt="group photo 1" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img2.png" alt="group photo 2" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img3.png" alt="group photo 3" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
     </div>
 </main>
-<!-- Main Content -->
+
+<style>
+/* Hover effect on images */
+.card-img:hover {
+    transform: scale(1.08);
+}
+</style>
 <main class="container mx-auto px-4 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img1.png" alt="group photo 1" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img2.png" alt="group photo 2" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img3.png" alt="group photo 3" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
     </div>
 </main>
-<!-- Main Content -->
+
+<style>
+/* Hover effect on images */
+.card-img:hover {
+    transform: scale(1.08);
+}
+</style>
 <main class="container mx-auto px-4 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img1.png" alt="group photo 1" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img2.png" alt="group photo 2" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img3.png" alt="group photo 3" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
     </div>
 </main>
-<!-- Main Content -->
+
+<style>
+/* Hover effect on images */
+.card-img:hover {
+    transform: scale(1.08);
+}
+</style>
 <main class="container mx-auto px-4 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img1.png" alt="group photo 1" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img2.png" alt="group photo 2" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img3.png" alt="group photo 3" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
     </div>
 </main>
-<!-- Main Content -->
+
+<style>
+/* Hover effect on images */
+.card-img:hover {
+    transform: scale(1.08);
+}
+</style>
 <main class="container mx-auto px-4 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img1.png" alt="group photo 1" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img2.png" alt="group photo 2" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img3.png" alt="group photo 3" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
     </div>
 </main>
-<!-- Main Content -->
+
+<style>
+/* Hover effect on images */
+.card-img:hover {
+    transform: scale(1.08);
+}
+</style>
 <main class="container mx-auto px-4 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img1.png" alt="group photo 1" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img2.png" alt="group photo 2" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img3.png" alt="group photo 3" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
     </div>
 </main>
-<!-- Main Content -->
+
+<style>
+/* Hover effect on images */
+.card-img:hover {
+    transform: scale(1.08);
+}
+</style>
 <main class="container mx-auto px-4 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img1.png" alt="group photo 1" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img2.png" alt="group photo 2" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
         
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
+        <div class="card bg-[#1E293B] shadow-lg hover:shadow-2xl transition-shadow p-4 rounded-lg">
+            <figure class="overflow-hidden rounded-lg">
+                <img src="img3.png" alt="group photo 3" class="card-img transition-transform duration-300 ease-in-out w-full h-64 object-cover" loading="lazy">
             </figure>
             <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3 class="card-title text-lg text-[#FACC15] font-semibold">Title will be here</h3>
+                <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
-    </div>
-</main>
-<!-- Main Content -->
-<main class="container mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
-            </figure>
-            <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-        </div>
-        
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
-            </figure>
-            <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-        </div>
-        
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
-            </figure>
-            <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-        </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
-    </div>
-</main>
-<!-- Main Content -->
-<main class="container mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
-            </figure>
-            <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-        </div>
-        
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
-            </figure>
-            <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-        </div>
-        
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
-            </figure>
-            <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-        </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
-    </div>
-</main>
-<!-- Main Content -->
-<main class="container mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img1.png" alt="group photo 1" class="rounded-lg h-64 object-cover w-full" loading="lazy">
-            </figure>
-            <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-        </div>
-        
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="ing2.png" alt="group photo 2" class="rounded-lg h-64 object-cover w-full" loading="lazy">
-            </figure>
-            <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-        </div>
-        
-        <div class="card bg-secondary shadow-md hover:shadow-xl transition-shadow p-4">
-            <figure>
-                <img src="img3.png" alt="group photo 3" class="rounded-lg h-64 object-cover w-full" loading="lazy">
-            </figure>
-            <div class="card-body text-center p-4">
-                <h3 class="card-title text-lg text-accent font-semibold">Title will be here</h3>
-                <p class="text-sm text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-        </div>
-        
-        
-        <!-- Row 2 End -->
-
-        <!-- Add 18 More Rows Like This -->
-
     </div>
 </main>
 
-</body>
-</html>
+<style>
+/* Hover effect on images */
+.card-img:hover {
+    transform: scale(1.08);
+}
+</style>
+
