@@ -47,7 +47,7 @@
         <div class="carousel-inner relative w-full">
             <!-- Slide 1 -->
             <div id="slide1" class="carousel-item active">
-                <img src="img1.png" class="w-full h-[50vh] object-cover">
+                <img src="img1.png" class="w-full h-[70vh] object-cover">
                 <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
                     <button class="btn-slide prev" data-target="#slide4">❮</button>
                     <button class="btn-slide next" data-target="#slide2">❯</button>
@@ -56,7 +56,7 @@
 
             <!-- Slide 2 -->
             <div id="slide2" class="carousel-item">
-                <img src="img2.png" class="w-full h-[50vh] object-cover">
+                <img src="img2.png" class="w-full h-[70vh] object-cover">
                 <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
                     <button class="btn-slide prev" data-target="#slide1">❮</button>
                     <button class="btn-slide next" data-target="#slide3">❯</button>
@@ -65,7 +65,7 @@
 
             <!-- Slide 3 -->
             <div id="slide3" class="carousel-item">
-                <img src="img3.png" class="w-full h-[50vh] object-cover">
+                <img src="img3.png" class="w-full h-[70vh] object-cover">
                 <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
                     <button class="btn-slide prev" data-target="#slide2">❮</button>
                     <button class="btn-slide next" data-target="#slide4">❯</button>
@@ -74,7 +74,7 @@
 
             <!-- Slide 4 -->
             <div id="slide4" class="carousel-item">
-                <img src="img4.png" class="w-full h-[50vh] object-cover">
+                <img src="img4.png" class="w-full h-[70vh] object-cover">
                 <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
                     <button class="btn-slide prev" data-target="#slide3">❮</button>
                     <button class="btn-slide next" data-target="#slide1">❯</button>
@@ -90,7 +90,7 @@
     display: none;
     opacity: 0;
     transform: translateX(20px);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
 }
 
 .carousel-item.active {
@@ -115,23 +115,64 @@
 </style>
 
 <script>
+let currentSlide = 1;
+const totalSlides = 4;
+let slideInterval;
+
+// Function to change slides automatically
+function autoSlide() {
+    const current = document.querySelector('.carousel-item.active');
+    let nextSlide = document.querySelector(`#slide${currentSlide + 1}`);
+
+    if (!nextSlide) {
+        nextSlide = document.querySelector("#slide1");
+        currentSlide = 1;
+    } else {
+        currentSlide++;
+    }
+
+    current.classList.remove('active');
+    nextSlide.classList.add('active');
+}
+
+// Start auto-slide on page load
+function startAutoSlide() {
+    slideInterval = setInterval(autoSlide, 4000); // Change slide every 4 seconds
+}
+
+// Manual navigation with buttons
 document.querySelectorAll('.btn-slide').forEach(button => {
     button.addEventListener('click', function() {
-        const currentSlide = document.querySelector('.carousel-item.active');
+        clearInterval(slideInterval); // Stop auto-slide when manually clicked
+
+        const current = document.querySelector('.carousel-item.active');
         const targetSlide = document.querySelector(this.dataset.target);
 
-        if (currentSlide !== targetSlide) {
-            currentSlide.classList.remove('active');
+        if (current !== targetSlide) {
+            current.classList.remove('active');
             targetSlide.classList.add('active');
+            currentSlide = parseInt(targetSlide.id.replace("slide", ""), 10);
         }
+
+        startAutoSlide(); // Restart auto-slide
     });
 });
+
+// Start automatic sliding when page loads
+window.onload = startAutoSlide;
 </script>
 
-<div>
-    <h2 class="text-center text-3xl font-bold text-accent mb-6 px-6 py-3">Welcome to the Faculty & Student Gallery</h2>
-    <p class="text-center text-lg text-gray-300 mb-6 container mx-auto px-5 py-15">Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse totam eligendi, maiores earum veniam rem ut expedita, error delectus reiciendis ex sit quam facere, laudantium reprehenderit. Corrupti libero quidem et illum a similique ducimus fugit atque quasi recusandae quaerat laborum vitae illo, repellat saepe alias magni vel corporis accusantium! Voluptates ipsa ad asperiores nobis, illo dolor similique voluptatum quasi minus at placeat vitae pariatur delectus maxime excepturi et, atque laboriosam exercitationem quidem sunt autem eius, facere voluptate! Magnam labore corrupti tempora soluta autem. Impedit ad, reiciendis odit distinctio omnis repellat quos qui incidunt explicabo harum at magnam perspiciatis culpa eveniet.</p>
+<div class=" text-white py-12 px-6 rounded-lg shadow-lg container mx-auto px-4 pt-12 pb-12">
+    <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-accent tracking-wide drop-shadow-lg">
+            Welcome to the Faculty & Student Gallery
+        </h2>
+        <p class="text-lg md:text-xl text-gray-300 mt-4 pt-7 pb-7">
+            Explore a collection of inspiring moments from our faculty and students, beautifully captured.
+        </p>
+    </div>
 </div>
+
 
 <!-- Main Content -->
 <main class="container mx-auto px-4 py-12">
